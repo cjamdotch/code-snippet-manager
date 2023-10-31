@@ -15,6 +15,26 @@
     .code-content{
         font-size: large;
     }
+
+
+    ul li {
+  cursor: pointer;
+  position: relative;
+  font-size: 18px;
+  transition: 0.2s;
+}
+
+
+.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 10%;
+  height: 10%;
+  border-radius: 3px;
+}
+
+    
 </style>
 
 <script>
@@ -36,6 +56,70 @@
         console.log('Unable to copy!');
     }
 }
+
+
+
+    // Create a "close" button and append it to each list item
+    var myNodelist = document.getElementsByTagName("LI");
+var i;
+for (i = 0; i < myNodelist.length; i++) {
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  myNodelist[i].appendChild(span);
+}
+
+// Click on a close button to hide the current list item
+var close = document.getElementsByClassName("close");
+var i;
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function() {
+    var div = this.parentElement;
+    div.style.display = "none";
+  }
+}
+
+// Add a "checked" symbol when clicking on a list item
+var list = document.querySelector('ul');
+list.addEventListener('click', function(ev) {
+  if (ev.target.tagName === 'LI') {
+    ev.target.classList.toggle('checked');
+  }
+}, false);
+
+// Create a new list item when clicking on the "Add" button
+function newElement() {
+  var li = document.createElement("li");
+  var inputValue = document.getElementById("myInput").value;
+  var t = document.createTextNode(inputValue);
+  li.appendChild(t);
+  if (inputValue === '') {
+    alert("You must write something!");
+  } else {
+    document.getElementById("myUL").appendChild(li);
+  }
+  document.getElementById("myInput").value = "";
+
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  li.appendChild(span);
+
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function() {
+      var div = this.parentElement;
+      div.style.display = "none";
+    }
+  }
+}
+
+
+
+
+
+
 
 
     </script>
@@ -115,7 +199,6 @@
                 </div>
                 <div>
                     <a class="btn btn-primary" href="#" role="button" onclick="myFunction(); CopyToClipboard('div_id')">Copy</a>
-                    <a class="btn btn-primary" href="#" role="button" onclick="myFunction(); CopyToClipboard('div_id')">Save To Favorites</a>
                 </div>
                 </div>
 
@@ -123,19 +206,19 @@
                 
             </div>
             <div class="col-sm-2 p-3">
-                <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-                      The current link item
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">A second link item</a>
-                    <a href="#" class="list-group-item list-group-item-action">A third link item</a>
-                    <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
-                    <a class="list-group-item list-group-item-action disabled">A disabled link item</a>
+
+                <h5>Note Book</h5>
+                <div class="input-group mb-3">
+                    <input id="myInput" type="text" class="form-control" placeholder="Notes" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button onclick="newElement()" class="btn btn-outline-secondary" type="button" id="button-addon2">Send</button>
                   </div>
-                  <br>
-                  <div>
-                    <a class="btn btn-primary" href="#" role="button" onclick="myFunction(); CopyToClipboard('div_id')">Delete</a>
+                <div class="card p-3">
+                    
+                    <ul id="myUL" >
+                    </ul>
                 </div>
+                
+                  
             </div>
         </div>
     </div>
